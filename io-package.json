@@ -1,0 +1,99 @@
+{
+    "common": {
+        "name": "tinyrx4",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie"
+            }
+        },
+        "title": "TinyRX4",
+        "titleLang": {
+            "en": "TinyRX4",
+            "de": "TinyRX4",
+            "ru": "TinyRX4",
+            "pt": "TinyRX4",
+            "nl": "TinyRX4",
+            "fr": "TinyRX4",
+            "it": "TinyRX4",
+            "es": "TinyRX4",
+            "pl": "TinyRX4"
+        },
+        "desc": {
+            "en": "Read wireless sensordata received via TinyRX4",
+            "de": "Einlesen der vom TinyRX4 empfangenen Funksensordaten",
+            "ru": "Чтение беспроводных сенсордат, полученных через TinyRX4",
+            "pt": "Leia sensordata sem fio recebido via TinyRX4",
+            "nl": "Lees draadloze sensordata ontvangen via TinyRX4",
+            "fr": "Lire les sensordata sans fil reçus via TinyRX4",
+            "it": "Leggi la sensordata wireless ricevuta tramite TinyRX4",
+            "es": "Lee sensordata inalámbrica recibida a través de TinyRX4",
+            "pl": "Odczytaj bezprzewodowe czujniki odebrane przez TinyRX4"
+        },
+        "authors": [
+            "bowao <cryolab@web.de>"
+        ],
+        "keywords": [
+            "tinyrx4",
+            "meigrafd",
+            "Funksensor",
+            "Raspberry",
+            "tinytx4"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "tinyRX4.png",
+        "enabled": true,
+        "extIcon": "http://192.168.2.1/bowao/iobroker.tinyrx4/admin/tinyRX4.png",
+        "readme": "https://github.com/bowao/maxcul-communication/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "messagebox": true,
+        "materialize": true,
+        "materializeTab": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "serialport": "",
+        "baudrate": 9600
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "If connected to Serial",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}
