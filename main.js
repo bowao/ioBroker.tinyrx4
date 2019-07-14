@@ -34,7 +34,7 @@ function startAdapter(options) {
         stateChange: function (id, state) {
             // Warning, state can be null if it was deleted
 //            adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
-        
+
             // you can use the ack flag to detect if it is status (true) or command (false)
             if (state && !state.ack) {
                 adapter.log.info('ack is not set!');
@@ -394,11 +394,11 @@ function setNodeState(data) {
 
     if (/r=[0-9]+&/.test(data)) {
         contact = parseInt((data.match(/r=[0-9]+/)[0].substring(2))) / 100;
-        if(contact === 0 || contact === 1){ 
+        if(contact === 0 || contact === 1){
         adapter.setState('Sensor_' + nodeId + '.contact', { val: contact, ack: true});
         } else {
-            adapter.log.warn(Wrong contact state received: Sensor_' + nodeId + '.contact : ' + contact);
-        }         
+            adapter.log.warn('Wrong contact state received: Sensor_' + nodeId + '.contact : ' + contact);
+        }
     }
 
     adapter.log.debug('data received for Node Id: ' + nodeId + ' voltage=' + voltage + ' temperature=' + temperature + ' humidity=' + humidity+ ' presure=' + pressure + ' height=' + height + ' distance=' + distance + ' contact=' + contact);
