@@ -94,9 +94,13 @@ Bereits benutzte msg-Variablen:
 * t = Temperatur
 * v = Batteriespannung
 
-## Changelog:
+## Changelog
+
+### 0.0.2
+- (bowao) cleanup and npm release
+
 ### 0.0.1
-* (bowao) initial release
+- (bowao) initial release
 
 ## License
 MIT License
