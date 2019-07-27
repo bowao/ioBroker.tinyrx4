@@ -177,14 +177,15 @@ function createNode(id, data) {
         adapter.setObjectNotExists('Sensor_' + id + '.pressure', {
             type: 'state',
             common: {
-                "name":     "Pressure",
-                "type":     "number",
-                "unit":     "hPa",
-                "min":      300,
-                "max":      1100,
-                "read":     true,
-                "write":    false,
-                "role":     "value.pressure",
+                "name": "Pressure",
+                "type": "number",
+                "unit": "hPa",
+                "min": 300,
+                "max": 1100,
+                "read": true,
+                "write": false,
+                "role": "value.pressure",
+                "desc": "Pressure"
             },
             native: {}
         });
@@ -206,18 +207,19 @@ function createNode(id, data) {
         });
    }
 
-    if(/he=[0-9]+&/.test(data)) {
+    if(/he=[0-9]+/.test(data)) {
         adapter.setObjectNotExists('Sensor_' + id + '.height', {
             type: 'state',
             common: {
-                "name":     "Height",
-                "type":     "number",
-                "unit":     "m",
-                "min":      -450,
-                "max":      9999,
-                "read":     true,
-                "write":    false,
-                "role":     "value.height",
+                "name": "Height",
+                "type": "number",
+                "unit": "m",
+                "min": -450,
+                "max": 9999,
+                "read": true,
+                "write": false,
+                "role": "value.height",
+                "desc": "Height"
             },
             native: {}
         });
@@ -239,18 +241,19 @@ function createNode(id, data) {
         });
    }
 
-    if(/d=[0-9]+&/.test(data)) {
+    if(/d=[0-9]+/.test(data)) {
         adapter.setObjectNotExists('Sensor_' + id + '.distance', {
             type: 'state',
             common: {
-                "name":     "Distance",
-                "type":     "number",
-                "unit":     "cm",
-                "min":      -1,
-                "max":      300,
-                "read":     true,
-                "write":    false,
-                "role":     "value.distance",
+                "name": "Distance",
+                "type": "number",
+                "unit": "cm",
+                "min": -1,
+                "max": 300,
+                "read": true,
+                "write": false,
+                "role": "value.distance",
+                "desc": "Distance"
             },
             native: {}
         });
@@ -272,21 +275,188 @@ function createNode(id, data) {
         });
    }
 
-    if(/r=[0-9]+&/.test(data)) {
+    if(/r=[0-9]+/.test(data)) {
         adapter.setObjectNotExists('Sensor_' + id + '.contact', {
             type: 'state',
             common: {
-                "name":     "Contact",
-                "type":     "boolean",
-                "read":     true,
-                "write":    false,
-                "role":     "sensor.window",
+                "name": "Contact",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "sensor.window",
+                "desc": "Door/Window Contact",
+                "states": {
+                0: 'open',
+                1: 'close'
+                }
             },
             native: {}
         });
    }
-}
 
+    if(/rssi=[-]*[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.rssi', {
+            type: 'state',
+            common: {
+                "name": "RSSI",
+                "type": "number",
+                "unit": "dBm",
+                "min": -125,
+                "max": 0,
+                "read": true,
+                "write": false,
+                "role": "value.rssi",
+                "desc": "Received Signal Strength Indication"
+            },
+            native: {}
+        });
+   }
+
+    if(/fo=[-]*[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.frequencyOffset', {
+            type: 'state',
+            common: {
+                "name": "Frequency Offset",
+                "type": "number",
+                "unit": "Hz",
+                "min": -25000,
+                "max": 25000,
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Frequency Offset"
+            },
+            native: {}
+        });
+   }
+
+    if(/lqi=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.linkQuality', {
+            type: 'state',
+            common: {
+                "name": "Link Quality Indicator",
+                "type": "number",
+                "unit": "",
+                "min": 0,
+                "max": 127,
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Link Quality Indicator"
+            },
+            native: {}
+        });
+   }
+
+    if(/c=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.counter', {
+            type: 'state',
+            common: {
+                "name": "Message Counter",
+                "type": "number",
+                "unit": "",
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Message Counter"
+            },
+            native: {}
+        });
+   }
+
+    if(/intr1=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr1', {
+            type: 'state',
+            common: {
+                "name": "Interrupt 1",
+                "type": "number",
+                "unit": "",
+                "min": 0,
+                "max": 3,
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Interrupt 1",
+                "states": {
+                1: 'CHANGE',
+                2: 'FALLING',
+                3: 'RISING'
+                }
+            },
+            native: {}
+        });
+   }
+
+    if(/intr2=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr2', {
+            type: 'state',
+            common: {
+                "name": "Interrupt 2",
+                "type": "number",
+                "unit": "",
+                "min": 0,
+                "max": 3,
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Interrupt 2",
+                "states": {
+                1: 'CHANGE',
+                2: 'FALLING',
+                3: 'RISING'
+                }
+            },
+            native: {}
+        });
+   }
+
+    if(/intr3=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr3', {
+            type: 'state',
+            common: {
+                "name": "Interrupt 3",
+                "type": "number",
+                "unit": "",
+                "min": 0,
+                "max": 3,
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Interrupt 3",
+                "states": {
+                1: 'CHANGE',
+                2: 'FALLING',
+                3: 'RISING'
+                }
+            },
+            native: {}
+        });
+   }
+
+    if(/intr4=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr4', {
+            type: 'state',
+            common: {
+                "name": "Interrupt 4",
+                "type": "number",
+                "unit": "",
+                "min": 0,
+                "max": 3,
+                "read": true,
+                "write": false,
+                "role": "value",
+                "desc": "Interrupt 4",
+                "states": {
+                1: 'CHANGE',
+                2: 'FALLING',
+                3: 'RISING'
+                }
+            },
+            native: {}
+        });
+   }
+
+}
 
 function setNodeState(data) {
 
@@ -298,6 +468,15 @@ function setNodeState(data) {
     let height;
     let distance;
     let contact;
+    let rssi;
+    let freqOffset;
+    let linkQuali;
+    let counter;
+    let intr1;
+    let intr2;
+    let intr3;
+    let intr4;
+    
 
     nodeId = data.split(' ')[0];
 
@@ -362,7 +541,7 @@ function setNodeState(data) {
         });
     }
 
-    if (/he=[0-9]+&/.test(data)) {
+    if (/he=[0-9]+/.test(data)) {
         height = parseInt((data.match(/he=[0-9]+/)[0].substring(3))) / 100;
         adapter.getState('Sensor_' + nodeId + '.config.offsetHeight', function (err, state) {
             if(err) {
@@ -377,7 +556,7 @@ function setNodeState(data) {
         });
     }
 
-    if (/d=[0-9]+&/.test(data)) {
+    if (/d=[0-9]+/.test(data)) {
         distance = parseInt((data.match(/d=[0-9]+/)[0].substring(2))) / 100;
         adapter.getState('Sensor_' + nodeId + '.config.offsetDistance', function (err, state) {
             if(err) {
@@ -392,8 +571,8 @@ function setNodeState(data) {
         });
     }
 
-    if (/r=[0-9]+&/.test(data)) {
-        contact = parseInt((data.match(/r=[0-9]+/)[0].substring(2))) / 100;
+    if (/r=[0-9]+/.test(data)) {
+        contact = parseInt((data.match(/r=[0-9]+/)[0].substring(2)));
         if(contact === 0 || contact === 1){
         adapter.setState('Sensor_' + nodeId + '.contact', { val: contact, ack: true});
         } else {
@@ -401,8 +580,48 @@ function setNodeState(data) {
         }
     }
 
-    adapter.log.debug('data received for Node Id: ' + nodeId + ' voltage=' + voltage + ' temperature=' + temperature + ' humidity=' + humidity+ ' presure=' + pressure + ' height=' + height + ' distance=' + distance + ' contact=' + contact);
+    if (/rssi=[-]*[0-9]+/.test(data)) {
+        rssi = parseInt((data.match(/rssi=[-]*[0-9]+/)[0].substring(5))) / 10;
+        adapter.setState('Sensor_' + nodeId + '.radioInfo.rssi', { val: rssi, ack: true});
+    }
 
+    if (/fo=[-]*[0-9]+/.test(data)) {
+        freqOffset = parseInt((data.match(/fo=[-]*[0-9]+/)[0].substring(3)));
+        adapter.setState('Sensor_' + nodeId + '.radioInfo.frequencyOffset', { val: freqOffset, ack: true});
+    }
+
+    if (/lqi=[0-9]+/.test(data)) {
+        linkQuali = parseInt((data.match(/lqi=[0-9]+/)[0].substring(4)));
+        adapter.setState('Sensor_' + nodeId + '.radioInfo.linkQuality', { val: linkQuali, ack: true});
+    }
+
+    if (/c=[0-9]+/.test(data)) {
+        counter = parseInt((data.match(/c=[0-9]+/)[0].substring(2)));
+        adapter.setState('Sensor_' + nodeId + '.radioInfo.counter', { val: counter, ack: true});
+    }
+
+    if (/intr1=[0-9]+/.test(data)) {
+        intr1 = parseInt((data.match(/intr1=[0-9]+/)[0].substring(6)));
+        adapter.setState('Sensor_' + nodeId + '.interrupts.intr1', { val: intr1, ack: true});
+    }
+
+    if (/intr2=[0-9]+/.test(data)) {
+        intr2 = parseInt((data.match(/intr2=[0-9]+/)[0].substring(6)));
+        adapter.setState('Sensor_' + nodeId + '.interrupts.intr2', { val: intr2, ack: true});
+    }
+
+    if (/intr3=[0-9]+/.test(data)) {
+        intr3 = parseInt((data.match(/intr3=[0-9]+/)[0].substring(6)));
+        adapter.setState('Sensor_' + nodeId + '.interrupts.intr3', { val: intr3, ack: true});
+    }
+
+    if (/intr4=[0-9]+/.test(data)) {
+        intr4 = parseInt((data.match(/intr4=[0-9]+/)[0].substring(6)));
+        adapter.setState('Sensor_' + nodeId + '.interrupts.intr4', { val: intr4, ack: true});
+    }
+
+    adapter.log.debug('data received for Node Id: ' + nodeId + ' voltage=' + voltage + ' temperature=' + temperature + ' humidity=' + humidity + ' presure=' + pressure + ' height=' + height + ' distance=' + distance + ' contact=' + contact);
+    adapter.log.debug('data received for Node Id: ' + nodeId + ' rssi=' + rssi + ' FrequencyOffset=' + freqOffset + ' linkQuality=' + linkQuali + ' counter=' + counter + ' intr1=' + intr1 + ' intr2=' + intr2 + ' intr3=' + intr3 + ' intr4=' + intr4);
 }
 
 function main() {
@@ -411,6 +630,13 @@ function main() {
         adapter.log.warn('Please define the serial port.');
         return;
     }
+
+    if (adapter.config.serialport === 'debug') {
+        let debugData = '23 v=3002&c=243&t=3400&h=5650&p=5350&he=1230&d=15500&r=1&intr1=1&intr2=2&intr3=3&intr4=1&rssi=-835&fo=2014&lqi=54';
+        setNodeState(debugData);
+        return;
+    }
+
 
     let bRate = parseInt(adapter.config.baudrate);
     let sPortName = adapter.config.serialport
@@ -433,8 +659,8 @@ function main() {
             var dataString;
             dataString = '' + data;
             dataString = dataString.replace(/[\r]/g, '');
-            if (/^[0-9]+[ ][vthp]/.test(dataString) && dataString.split(' ')[0] >= 1) {
-		setNodeState(data);
+            if (/^[0-9]+\s[a-z]{1,4}=\d+&/.test(dataString) && dataString.split(' ')[0] >= 1) {
+                setNodeState(data);
             } else {
                 adapter.log.info('Invalid data: ' + data);
             }
@@ -453,3 +679,4 @@ if (module && module.parent) {
     // or start the instance directly
     startAdapter();
 } 
+

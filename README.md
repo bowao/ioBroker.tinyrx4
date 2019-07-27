@@ -10,10 +10,10 @@
 
 **Tests:**: [![Travis-CI](http://img.shields.io/travis/bowao/ioBroker.tinyrx4/master.svg)](https://travis-ci.org/bowao/ioBroker.tinyrx4)
 
-## TinyRX4 adapter for ioBroker
+## TinyRX4 and TiNo adapter for ioBroker
 (German version see below)
 
-Read wireless sensordata received via TinyRX4
+Read wireless sensordata received via TinyRX4 or TiNo
 
 The wireless transceiver TinyTX4 and receiver TinyRX4 were developed by meigrafd in the german Raspberry Pi Forum.
 
@@ -37,6 +37,16 @@ This ioBroker-adapter supports all sensor sketches published on https://github.c
 * HCSR04 (Ultrasonic Sensor)
 * ReedSwitch (Door/Window Contact)
 
+The TiNo is the logical and consistent evolution of the TinyTX4/TinyRX4 wireless sensors.
+
+* optimized battery life (5 years or more with a CR2032 battery)
+* optimized range
+* optimized safety
+* optimized simplicity
+* optimized reliability
+
+Project-page: https://nurazur.wordpress.com/
+
 The sensors are automatically created with their node-id after the first message reception. Only those data points are created that are detected via the msg-variables. In addition, the associated offset data points are created under "config", so that the sensor values can be corrected if necessary.
 
 If you use other sensors with customized msg-variables, I can implement this in the adapter or you make a pull-request. The msg-variables must be different from those already used.
@@ -46,18 +56,25 @@ Already used msg-variables
 * d = Distance
 * h = Humidity
 * he = Height
-* p = air pressure
+* p = Air Pressure
 * r = Reed-Contact
 * t = Temperature
 * v = Battery voltage
-
+* c = Message Counter (TiNo)
+* rssi = Received Signal Strength Indication (TiNo)
+* fo = Frequeny Offset (TiNo)
+* lqi = Link Quality Indicator (TiNo)
+* intr1 = Interrupt 1 (TiNo)
+* intr2 = Interrupt 2 (TiNo)
+* intr3 = Interrupt 3 (TiNo)
+* intr4 = Interrupt 4 (TiNo)
 
 
 -------------------------------------------------------------------------------------------
 
-## TinyRX4 adapter für ioBroker
+## TinyRX4 und TiNo adapter für ioBroker
 
-Einlesen der vom TinyRX4 empfangenen Funksensordaten
+Einlesen der vom TinyRX4 und TiNo empfangenen Funksensordaten
 
 Der Funksender TinyTX4 und der Funkempfänger TinyRX4 wurden von meigrafd im deutschen Raspberry Pi Forum entwickelt.
 
@@ -80,6 +97,16 @@ Dieser IoBroker-Adapter unterstützt alle unter https://github.com/meigrafd/Tiny
 * HCSR04 (Ultraschallsensor)
 * ReedSwitch (Tür-/Fensterkontakt)
 
+Der TiNo ist die logische und konsequente Weiterentwicklung der TinyTX4/TinyRX4 Funksensoren.
+
+* optimierte Batterielebensdauer (5 Jahre oder mehr mit einer CR2032 Batterie)
+* optimierte Reichweite
+* optimierte Sicherheit
+* optimierte Einfachheit
+* optimierte Zuverlässigkeit
+
+Projekt-Seite: https://nurazur.wordpress.com/
+
 Die Sensoren werden nach dem ersten Nachrichten-Empfang automatisch mit ihrer Node-Id angelegt. Es werden jeweils nur die Datenpunkte angelegt, die über die msg-Variablen erkannt wurden. Zusätzlich werden unter "config" die zugehörigen offset Datenpunkte erstellt, damit die Sensorwerte bei Bedarf korrigiert werden können.
 
 Falls ihr andere Sensoren mit angepassten msg-Variablen verwendet, kann ich dies gerne im Adapter umsetzen oder ihr macht einen pull-request. Die msg-Variablen müssen sich von den bereits benutzten unterscheiden.
@@ -93,8 +120,19 @@ Bereits benutzte msg-Variablen:
 * r = Reed-Kontakt
 * t = Temperatur
 * v = Batteriespannung
+* c = Nachrichtenzähler (TiNo)
+* rssi = Signalstärke (TiNo)
+* fo = Frequenzversatz (TiNo)
+* lqi = Verbindungsqualität (TiNo)
+* intr1 = Interrupt 1 (TiNo)
+* intr2 = Interrupt 2 (TiNo)
+* intr3 = Interrupt 3 (TiNo)
+* intr4 = Interrupt 4 (TiNo)
 
 ## Changelog
+### 0.0.3
+- (bowao) add support for TiNo
+- (bowao) bugfix
 
 ### 0.0.2
 - (bowao) cleanup and npm release

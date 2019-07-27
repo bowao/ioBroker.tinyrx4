@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "tinyrx4",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "news": {
+            "0.0.3":{
+                "en": "add support for TiNo and bugfix"
+            },
             "0.0.2":{
                 "en": "cleanup and npm release"
             },
