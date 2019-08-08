@@ -286,175 +286,49 @@ function createNode(id, data) {
                 "role": "sensor.window",
                 "desc": "Door/Window Contact",
                 "states": {
-                0: 'open',
-                1: 'close'
+                0: 'opened',
+                1: 'closed'
                 }
             },
             native: {}
         });
    }
 
-    if(/rssi=[-]*[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.rssi', {
+    if (/t=[0-9]+/.test(data) && /h=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.calculated.humidity_absolute', {
             type: 'state',
             common: {
-                "name": "RSSI",
+                "name": "Humidity Absolute",
                 "type": "number",
-                "unit": "dBm",
-                "min": -125,
-                "max": 0,
-                "read": true,
-                "write": false,
-                "role": "value.rssi",
-                "desc": "Received Signal Strength Indication"
-            },
-            native: {}
-        });
-   }
-
-    if(/fo=[-]*[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.frequencyOffset', {
-            type: 'state',
-            common: {
-                "name": "Frequency Offset",
-                "type": "number",
-                "unit": "Hz",
-                "min": -25000,
-                "max": 25000,
-                "read": true,
-                "write": false,
-                "role": "value",
-                "desc": "Frequency Offset"
-            },
-            native: {}
-        });
-   }
-
-    if(/lqi=[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.linkQuality', {
-            type: 'state',
-            common: {
-                "name": "Link Quality Indicator",
-                "type": "number",
-                "unit": "",
+                "unit": "g/m3",
                 "min": 0,
-                "max": 127,
+                "max": 100,
                 "read": true,
                 "write": false,
-                "role": "value",
-                "desc": "Link Quality Indicator"
+                "role": "value.humidity",
+                "desc": "Humidity Absolute"
             },
             native: {}
         });
-   }
+    }
 
-    if(/c=[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.radioInfo.counter', {
+    if (/t=[0-9]+/.test(data) && /h=[0-9]+/.test(data)) {
+        adapter.setObjectNotExists('Sensor_' + id + '.calculated.dew_point', {
             type: 'state',
             common: {
-                "name": "Message Counter",
+                "name": "Dew Point",
                 "type": "number",
-                "unit": "",
-                "read": true,
-                "write": false,
-                "role": "value",
-                "desc": "Message Counter"
-            },
-            native: {}
-        });
-   }
-
-    if(/intr1=[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr1', {
-            type: 'state',
-            common: {
-                "name": "Interrupt 1",
-                "type": "number",
-                "unit": "",
+                "unit": "°C",
                 "min": 0,
-                "max": 3,
+                "max": 100,
                 "read": true,
                 "write": false,
-                "role": "value",
-                "desc": "Interrupt 1",
-                "states": {
-                1: 'CHANGE',
-                2: 'FALLING',
-                3: 'RISING'
-                }
+                "role": "value.temperature",
+                "desc": "Dew Point"
             },
             native: {}
         });
-   }
-
-    if(/intr2=[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr2', {
-            type: 'state',
-            common: {
-                "name": "Interrupt 2",
-                "type": "number",
-                "unit": "",
-                "min": 0,
-                "max": 3,
-                "read": true,
-                "write": false,
-                "role": "value",
-                "desc": "Interrupt 2",
-                "states": {
-                1: 'CHANGE',
-                2: 'FALLING',
-                3: 'RISING'
-                }
-            },
-            native: {}
-        });
-   }
-
-    if(/intr3=[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr3', {
-            type: 'state',
-            common: {
-                "name": "Interrupt 3",
-                "type": "number",
-                "unit": "",
-                "min": 0,
-                "max": 3,
-                "read": true,
-                "write": false,
-                "role": "value",
-                "desc": "Interrupt 3",
-                "states": {
-                1: 'CHANGE',
-                2: 'FALLING',
-                3: 'RISING'
-                }
-            },
-            native: {}
-        });
-   }
-
-    if(/intr4=[0-9]+/.test(data)) {
-        adapter.setObjectNotExists('Sensor_' + id + '.interrupts.intr4', {
-            type: 'state',
-            common: {
-                "name": "Interrupt 4",
-                "type": "number",
-                "unit": "",
-                "min": 0,
-                "max": 3,
-                "read": true,
-                "write": false,
-                "role": "value",
-                "desc": "Interrupt 4",
-                "states": {
-                1: 'CHANGE',
-                2: 'FALLING',
-                3: 'RISING'
-                }
-            },
-            native: {}
-        });
-   }
+    }
 
 }
 
@@ -468,15 +342,14 @@ function setNodeState(data) {
     let height;
     let distance;
     let contact;
-    let rssi;
-    let freqOffset;
-    let linkQuali;
-    let counter;
-    let intr1;
-    let intr2;
-    let intr3;
-    let intr4;
-    
+    let humAbs;
+    let vCalc;
+    let dewPoint;
+//    let humAbsRel;
+//    let baseHeight = 24.0;
+//    let seaLevel;
+//    let altitude;
+//    let calcAlti;
 
     nodeId = data.split(' ')[0];
 
@@ -486,6 +359,10 @@ function setNodeState(data) {
         } else {
             if(!obj){
                 adapter.log.info('Create new Sensor: ' + nodeId);
+                createNode(nodeId, data);
+            }
+            if(adapter.config.newDPonNodes === true) {
+                adapter.log.info('Search for new Datapoints on already created sensor: ' + nodeId);
                 createNode(nodeId, data);
             }
         }
@@ -528,6 +405,11 @@ function setNodeState(data) {
 
     if (/p=[0-9]+/.test(data)) {
         pressure = parseInt((data.match(/p=[0-9]+/)[0].substring(2))) / 100;
+//        seaLevel = (pressure / Math.pow(1 - (baseHeight / 44330.7692), 5.255));
+//        altitude = (44330.7692*(1 - Math.pow(pressure/seaLevel, 1 / 5.255)));
+//        calcAlti = (44330.7692*(1 - Math.pow(pressure / 1013.25, 0.190294957)));
+//        adapter.log.info('Sealevel: ' + seaLevel.toFixed(2) + 'hPa | Altitude: ' + altitude.toFixed(2) + 'm');
+//        adapter.log.info('Calculated Altitude : ' + calcAlti.toFixed(2) + 'm');
         adapter.getState('Sensor_' + nodeId + '.config.offsetPressure', function (err, state) {
             if(err) {
                 adapter.log.info(err);
@@ -580,48 +462,27 @@ function setNodeState(data) {
         }
     }
 
-    if (/rssi=[-]*[0-9]+/.test(data)) {
-        rssi = parseInt((data.match(/rssi=[-]*[0-9]+/)[0].substring(5))) / 10;
-        adapter.setState('Sensor_' + nodeId + '.radioInfo.rssi', { val: rssi, ack: true});
+    if (/t=[0-9]+/.test(data) && /h=[0-9]+/.test(data)) {
+        adapter.getState('Sensor_' + nodeId + '.temperature', function (err, stateTemp) {
+            adapter.getState('Sensor_' + nodeId + '.humidity', function (err, stateHum) {
+                if(err) {
+                    adapter.log.info(err);
+                } else {
+                    if (stateTemp && stateHum) {
+//                        humAbsRel = 18.016 / 8314.4 * 100000 * stateHum.val / 100 * 6.1078 * Math.pow (10,((7.5 * stateTemp.val) / (237.3 + stateTemp.val))) / (stateTemp.val + 273.15);
+                        vCalc = Math.log10((stateHum.val / 100) * (6.1078 * Math.pow (10,((7.5 * stateTemp.val) / (237.3 + stateTemp.val))) / 6.1078));
+                        dewPoint = 237.3 * vCalc / (7.5 - vCalc);
+                        humAbs = Math.pow(10, 5) * 18.016 / 8314.3 * (6.1078 * Math.pow (10,((7.5 * dewPoint) / (237.3 + dewPoint))) / (stateTemp.val + 273.15));
+                        adapter.log.debug(nodeId + ' Humidity Absolute: ' + humAbs.toFixed(2) + ' g/m3 | Dew Point: ' + dewPoint.toFixed(2) + ' °C');
+                        adapter.setState('Sensor_' + nodeId + '.calculated.humidity_absolute', { val: humAbs.toFixed(2), ack: true});
+                        adapter.setState('Sensor_' + nodeId + '.calculated.dew_point', { val: dewPoint.toFixed(2), ack: true});
+                    }
+                }
+            });
+        });
     }
-
-    if (/fo=[-]*[0-9]+/.test(data)) {
-        freqOffset = parseInt((data.match(/fo=[-]*[0-9]+/)[0].substring(3)));
-        adapter.setState('Sensor_' + nodeId + '.radioInfo.frequencyOffset', { val: freqOffset, ack: true});
-    }
-
-    if (/lqi=[0-9]+/.test(data)) {
-        linkQuali = parseInt((data.match(/lqi=[0-9]+/)[0].substring(4)));
-        adapter.setState('Sensor_' + nodeId + '.radioInfo.linkQuality', { val: linkQuali, ack: true});
-    }
-
-    if (/c=[0-9]+/.test(data)) {
-        counter = parseInt((data.match(/c=[0-9]+/)[0].substring(2)));
-        adapter.setState('Sensor_' + nodeId + '.radioInfo.counter', { val: counter, ack: true});
-    }
-
-    if (/intr1=[0-9]+/.test(data)) {
-        intr1 = parseInt((data.match(/intr1=[0-9]+/)[0].substring(6)));
-        adapter.setState('Sensor_' + nodeId + '.interrupts.intr1', { val: intr1, ack: true});
-    }
-
-    if (/intr2=[0-9]+/.test(data)) {
-        intr2 = parseInt((data.match(/intr2=[0-9]+/)[0].substring(6)));
-        adapter.setState('Sensor_' + nodeId + '.interrupts.intr2', { val: intr2, ack: true});
-    }
-
-    if (/intr3=[0-9]+/.test(data)) {
-        intr3 = parseInt((data.match(/intr3=[0-9]+/)[0].substring(6)));
-        adapter.setState('Sensor_' + nodeId + '.interrupts.intr3', { val: intr3, ack: true});
-    }
-
-    if (/intr4=[0-9]+/.test(data)) {
-        intr4 = parseInt((data.match(/intr4=[0-9]+/)[0].substring(6)));
-        adapter.setState('Sensor_' + nodeId + '.interrupts.intr4', { val: intr4, ack: true});
-    }
-
+                
     adapter.log.debug('data received for Node Id: ' + nodeId + ' voltage=' + voltage + ' temperature=' + temperature + ' humidity=' + humidity + ' presure=' + pressure + ' height=' + height + ' distance=' + distance + ' contact=' + contact);
-    adapter.log.debug('data received for Node Id: ' + nodeId + ' rssi=' + rssi + ' FrequencyOffset=' + freqOffset + ' linkQuality=' + linkQuali + ' counter=' + counter + ' intr1=' + intr1 + ' intr2=' + intr2 + ' intr3=' + intr3 + ' intr4=' + intr4);
 }
 
 function main() {
@@ -632,7 +493,7 @@ function main() {
     }
 
     if (adapter.config.serialport === 'debug') {
-        let debugData = '23 v=3002&c=243&t=3400&h=5650&p=5350&he=1230&d=15500&r=1&intr1=1&intr2=2&intr3=3&intr4=1&rssi=-835&fo=2014&lqi=54';
+        let debugData = '23 v=3002&c=243&t=3400&h=5650&p=5350&he=1230&d=15500&r=0';
         setNodeState(debugData);
         return;
     }
@@ -660,7 +521,7 @@ function main() {
             dataString = '' + data;
             dataString = dataString.replace(/[\r]/g, '');
             if (/^[0-9]+\s[a-z]{1,4}=\d+&/.test(dataString) && dataString.split(' ')[0] >= 1) {
-                setNodeState(data);
+                setNodeState(dataString);
             } else {
                 adapter.log.info('Invalid data: ' + data);
             }

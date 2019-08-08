@@ -1,7 +1,7 @@
 {
   "name": "iobroker.tinyrx4",
-  "version": "0.0.3",
-  "description": "Read wireless sensordata received via TinyRX4 or TiNo",
+  "version": "0.1.0",
+  "description": "Read wireless sensordata received via TinyRX4",
   "author": {
     "name": "bowao",
     "email": "cryolab@web.de"
