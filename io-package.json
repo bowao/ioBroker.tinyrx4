@@ -6,7 +6,7 @@
             "0.1.0":{
                 "en": "add option to search new data points on already created sensors, add calculated data points humidity_absolute and dew point, remove TiNo support (TiNo now has his own adapter)",
                 "de": "Berechnete Datenpunkte Luftfeuchtigkeit_absolut und Taupunkt hinzugefügt, TiNo-Unterstützung entfernt (TiNo hat jetzt seinen eigenen Adapter)"
-            }
+            },
             "0.0.3":{
                 "en": "add support for TiNo and bugfix"
             },
