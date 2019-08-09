@@ -37,7 +37,7 @@ function startAdapter(options) {
 
             // you can use the ack flag to detect if it is status (true) or command (false)
             if (state && !state.ack) {
-                adapter.log.info('ack is not set!');
+//                adapter.log.info('ack is not set!');
             }
         },
 
@@ -463,25 +463,27 @@ function setNodeState(data) {
     }
 
     if (/t=[0-9]+/.test(data) && /h=[0-9]+/.test(data)) {
-        adapter.getState('Sensor_' + nodeId + '.temperature', function (err, stateTemp) {
-            adapter.getState('Sensor_' + nodeId + '.humidity', function (err, stateHum) {
-                if(err) {
-                    adapter.log.info(err);
-                } else {
-                    if (stateTemp && stateHum) {
-//                        humAbsRel = 18.016 / 8314.4 * 100000 * stateHum.val / 100 * 6.1078 * Math.pow (10,((7.5 * stateTemp.val) / (237.3 + stateTemp.val))) / (stateTemp.val + 273.15);
-                        vCalc = Math.log10((stateHum.val / 100) * (6.1078 * Math.pow (10,((7.5 * stateTemp.val) / (237.3 + stateTemp.val))) / 6.1078));
-                        dewPoint = 237.3 * vCalc / (7.5 - vCalc);
-                        humAbs = Math.pow(10, 5) * 18.016 / 8314.3 * (6.1078 * Math.pow (10,((7.5 * dewPoint) / (237.3 + dewPoint))) / (stateTemp.val + 273.15));
-                        adapter.log.debug(nodeId + ' Humidity Absolute: ' + humAbs.toFixed(2) + ' g/m3 | Dew Point: ' + dewPoint.toFixed(2) + ' °C');
-                        adapter.setState('Sensor_' + nodeId + '.calculated.humidity_absolute', { val: humAbs.toFixed(2), ack: true});
-                        adapter.setState('Sensor_' + nodeId + '.calculated.dew_point', { val: dewPoint.toFixed(2), ack: true});
+        setTimeout(function() {
+            adapter.getState('Sensor_' + nodeId + '.temperature', function (err, stateTemp) {
+                adapter.getState('Sensor_' + nodeId + '.humidity', function (err, stateHum) {
+                    if(err) {
+                        adapter.log.info(err);
+                    } else {
+                        if (stateTemp && stateHum) {
+//                            humAbsRel = 18.016 / 8314.4 * 100000 * stateHum.val / 100 * 6.1078 * Math.pow (10,((7.5 * stateTemp.val) / (237.3 + stateTemp.val))) / (stateTemp.val + 273.15);
+                            vCalc = Math.log10((stateHum.val / 100) * (6.1078 * Math.pow (10,((7.5 * stateTemp.val) / (237.3 + stateTemp.val))) / 6.1078));
+                            dewPoint = 237.3 * vCalc / (7.5 - vCalc);
+                            humAbs = Math.pow(10, 5) * 18.016 / 8314.3 * (6.1078 * Math.pow (10,((7.5 * dewPoint) / (237.3 + dewPoint))) / (stateTemp.val + 273.15));
+                            adapter.log.debug(nodeId + ' Humidity Absolute: ' + humAbs.toFixed(2) + ' g/m3 | Dew Point: ' + dewPoint.toFixed(2) + ' °C');
+                            adapter.setState('Sensor_' + nodeId + '.calculated.humidity_absolute', { val: humAbs.toFixed(2), ack: true});
+                            adapter.setState('Sensor_' + nodeId + '.calculated.dew_point', { val: dewPoint.toFixed(2), ack: true});
+                        }
                     }
-                }
+                });
             });
-        });
+        }, 100);
     }
-                
+
     adapter.log.debug('data received for Node Id: ' + nodeId + ' voltage=' + voltage + ' temperature=' + temperature + ' humidity=' + humidity + ' presure=' + pressure + ' height=' + height + ' distance=' + distance + ' contact=' + contact);
 }
 
