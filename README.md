@@ -105,6 +105,9 @@ Bereits benutzte msg-Variablen:
 * v = Batteriespannung
 
 ## Changelog
+### 0.1.1
+- (bowao) close serialport on unload and cleanup
+
 ### 0.1.0
 - (boawo) add option to search new data points on already created sensors
 - (bowao) add calculated data points humidity_absolute and dew point
