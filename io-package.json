@@ -4,7 +4,7 @@
         "version": "0.1.3",
         "news": {
             "0.1.3":{
-                "en:" "fix npm Version"
+                "en": "fix npm Version"
             },
             "0.1.2":{
                 "en": "close serialport on unload and cleanup 2"
