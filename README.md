@@ -105,6 +105,9 @@ Bereits benutzte msg-Variablen:
 * v = Batteriespannung
 
 ## Changelog
+### 0.1.3
+- (bowao) fix npm Version
+
 ### 0.1.2
 - (bowao) close serialport on unload and cleanup 2
 
