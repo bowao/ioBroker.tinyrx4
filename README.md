@@ -105,6 +105,9 @@ Bereits benutzte msg-Variablen:
 * v = Batteriespannung
 
 ## Changelog
+### 0.1.4
+- (bowao) fix typo
+
 ### 0.1.3
 - (bowao) fix npm Version
 
