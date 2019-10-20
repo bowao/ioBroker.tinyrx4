@@ -9,35 +9,22 @@ let sPort = null;
 let adapter;
 
 function startAdapter(options) {
-     options = options || {};
-     Object.assign(options, {
-          name: 'tinyrx4',
+    options = options || {};
+    Object.assign(options, {
+        name: 'tinyrx4',
 
-          // is called when adapter shuts down - callback has to be called under any circumstances!
-          unload: function (callback) {
+        // is called when adapter shuts down - callback has to be called under any circumstances!
+        unload: function (callback) {
             try {
-                adapter.log.info('cleaned everything up...');
+                if (sPort.isOpen) {
+                    sPort.close();
+                    adapter.log.info('Serialport: ' + adapter.config.serialport + ' is closed');
+                }
                 adapter.setState('info.connection', false, true);
+                adapter.log.info('cleaned everything up...');
                 callback();
             } catch (e) {
                 callback();
-            }
-        },
-
-        // is called if a subscribed object changes
-        objectChange: function (id, obj) {
-            // Warning, obj can be null if it was deleted
-//            adapter.log.info('objectChange ' + id + ' ' + JSON.stringify(obj));
-        },
-
-        // is called if a subscribed state changes
-        stateChange: function (id, state) {
-            // Warning, state can be null if it was deleted
-//            adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
-
-            // you can use the ack flag to detect if it is status (true) or command (false)
-            if (state && !state.ack) {
-//                adapter.log.info('ack is not set!');
             }
         },
 
@@ -489,22 +476,16 @@ function setNodeState(data) {
 
 function main() {
 
+    adapter.setState('info.connection', false, true);
     if (!adapter.config.serialport) {
         adapter.log.warn('Please define the serial port.');
         return;
     }
 
-    if (adapter.config.serialport === 'debug') {
-        let debugData = '23 v=3002&c=243&t=3400&h=5650&p=5350&he=1230&d=15500&r=0';
-        setNodeState(debugData);
-        return;
-    }
-
-
     let bRate = parseInt(adapter.config.baudrate);
     let sPortName = adapter.config.serialport
 
-    const sPort = new SerialPort(sPortName, {baudRate: bRate}, function(err) {
+    sPort = new SerialPort(sPortName, {baudRate: bRate}, function(err) {
         if (err) {
         adapter.log.info('Serialport ' + err);
         return;
@@ -530,7 +511,6 @@ function main() {
         });
     });
 
-    adapter.subscribeStates('*');
 
 }
 
