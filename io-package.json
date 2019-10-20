@@ -3,6 +3,9 @@
         "name": "tinyrx4",
         "version": "0.1.1",
         "news": {
+            "0.1.2":{
+                "en": "close serialport on unload and cleanup 2"
+            },
             "0.1.1":{
                 "en": "close serialport on unload, cleanup"
             },
