@@ -105,6 +105,9 @@ Bereits benutzte msg-Variablen:
 * v = Batteriespannung
 
 ## Changelog
+### 0.1.5
+- Update travis.yml, License, Readme
+
 ### 0.1.4
 - (bowao) fix typo
 
