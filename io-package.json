@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "tinyrx4",
-        "version": "0.1.5",
+        "version": "1.0.0",
         "news": {
+            "1.0.0":{
+                "en": "Update dependencies, Drop node 8 support"
+            },
             "0.1.5":{
                 "en": "Update travis.yml, License, Readme"
             },

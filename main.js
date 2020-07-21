@@ -7,6 +7,7 @@ const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline')
 let sPort = null;
 let adapter;
+let calcTimeout;
 
 function startAdapter(options) {
     options = options || {};
@@ -21,6 +22,8 @@ function startAdapter(options) {
                     adapter.log.info('Serialport: ' + adapter.config.serialport + ' is closed');
                 }
                 adapter.setState('info.connection', false, true);
+                clearTimeout(calcTimeout);
+                adapter.log.info('Cleared timeout');
                 adapter.log.info('cleaned everything up...');
                 callback();
             } catch (e) {
@@ -36,13 +39,13 @@ function startAdapter(options) {
                         if (obj.callback) {
                             if (SerialPort) {
                                 // read all found serial ports
-                                SerialPort.list((err, ports) => {
+                                SerialPort.list().then((ports) => {
                                     adapter.log.info('List of port: ' + JSON.stringify(ports));
                                     adapter.sendTo(obj.from, obj.command, ports, obj.callback);
                                 });
                             } else {
                                 adapter.log.warn('Module serialport is not available');
-                                adapter.sendTo(obj.from, obj.command, [{comName: 'Not available'}], obj.callback);
+                                adapter.sendTo(obj.from, obj.command, [{path: 'Not available'}], obj.callback);
                             }
                         }
                     break;
@@ -450,7 +453,7 @@ function setNodeState(data) {
     }
 
     if (/t=[0-9]+/.test(data) && /h=[0-9]+/.test(data)) {
-        setTimeout(function() {
+        calcTimeout = setTimeout(function() {
             adapter.getState('Sensor_' + nodeId + '.temperature', function (err, stateTemp) {
                 adapter.getState('Sensor_' + nodeId + '.humidity', function (err, stateHum) {
                     if(err) {
@@ -468,7 +471,7 @@ function setNodeState(data) {
                     }
                 });
             });
-        }, 100);
+        }, 500);
     }
 
     adapter.log.debug('data received for Node Id: ' + nodeId + ' voltage=' + voltage + ' temperature=' + temperature + ' humidity=' + humidity + ' presure=' + pressure + ' height=' + height + ' distance=' + distance + ' contact=' + contact);
