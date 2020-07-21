@@ -108,6 +108,7 @@ Bereits benutzte msg-Variablen:
 ### 1.0.0
 - Update dependencies
 - BREAKING CHANGE: Drop node 8 support, requires node 10 or above
+- BREAKING CHANGE: js-controller v2.4.0 or above required
 
 ### 0.1.5
 - Update travis.yml, License, Readme
