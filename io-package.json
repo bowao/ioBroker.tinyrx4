@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "tinyrx4",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
+            "1.0.1":{
+                "en": "Optimization for js-controller 3.3, Fix for negative temperature values, Update travis.yml"
+            },
             "1.0.0":{
                 "en": "Update dependencies, Drop node 8 support"
             },
@@ -87,6 +90,8 @@
         "mode": "daemon",
         "type": "hardware",
         "compact": true,
+        "connectionType": "local",
+        "dataSource": "push",
         "messagebox": true,
         "materialize": true,
         "materializeTab": true,
@@ -99,7 +104,7 @@
     "native": {
         "serialport": "",
         "baudrate": 9600,
-        "newDPonNodes": false
+        "newDPonNodes": true
     },
     "objects": [],
     "instanceObjects": [
