@@ -87,6 +87,7 @@
         "extIcon": "https://raw.githubusercontent.com/bowao/ioBroker.tinyrx4/master/admin/tinyRX4.png",
         "readme": "https://github.com/bowao/ioBroker.tinyrx4/blob/master/README.md",
         "loglevel": "info",
+        "tier": 2,
         "mode": "daemon",
         "type": "hardware",
         "compact": true,
