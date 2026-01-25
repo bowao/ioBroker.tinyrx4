@@ -9,6 +9,7 @@
   "homepage": "https://github.com/bowao/ioBroker.tinyrx4",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "raspberry",
     "funksensor",
     "meigrafd",
